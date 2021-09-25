@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {Button} from "./Button";
+import s from "./AddItemForm.module.css"
 
 type PropsType = {
     callBack:(title:string)=>void
@@ -34,9 +35,14 @@ export const AddItemForm:React.FC<PropsType> = ({callBack}) =>{
 
     return(
         <div>
-            <input value={title} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
+            <input
+                value={title}
+                onChange={onChangeHandler}
+                onKeyPress={onKeyPressHandler}
+                className={error? s.errorInput:''}
+            />
             <Button callBack={addInputItem} error={error} title={'+'}/>
-            {error?<div>{error}</div>:""}
+            {error?<div className={s.error}>{error}</div>:""}
         </div>
     )
 }

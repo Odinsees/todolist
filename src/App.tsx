@@ -54,6 +54,10 @@ function App() {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskID ? {...m, isDone: isDone} : m)})
     }
 
+    const renameTask = (newTitle:string, todolistID:string, taskID:string) =>{
+        setTasks({...tasks,[todolistID]:tasks[todolistID].map(m=>m.id === taskID?{...m,title:newTitle}:m)})
+    }
+
     return (
         <div className="App">
             <AddItemForm callBack={addTodolist}/>
@@ -75,6 +79,8 @@ function App() {
                         addTask={addTask}
                         changeFilter={changeFilter}
                         changeChecked={changeChecked}
+                        filter={t.filter}
+                        renameTask={renameTask}
                     />
                 )
             })}

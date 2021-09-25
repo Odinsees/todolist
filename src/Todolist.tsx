@@ -2,7 +2,8 @@ import React, {ChangeEvent} from 'react';
 import {FilterValueType, TaskType} from "./App";
 import {Button} from "./Components/Button";
 import {AddItemForm} from "./Components/AddItemForm";
-
+import s from "./Todolist.module.css"
+import {EditableSpan} from "./Components/EditableSpan";
 
 type PropsType = {
     title: string
@@ -10,11 +11,13 @@ type PropsType = {
     todolistID: string
     removeTask: (todolistID: string, titleID: string) => void
     addTask: (todolistID: string, newTitleText: string) => void
-    changeFilter: (value: FilterValueType, todolistID:string) => void
-    changeChecked:(isDone:boolean,todolistID:string, taskID:string )=>void
+    changeFilter: (value: FilterValueType, todolistID: string) => void
+    changeChecked: (isDone: boolean, todolistID: string, taskID: string) => void
+    filter: FilterValueType
+    renameTask:(newTitle:string, todolistID:string, taskID:string)=>void
 }
 
-export const Todolist: React.FC<PropsType> = ({todolistID, ...props}) => {
+export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) => {
 
     const callBackFromAddTask = (newTitleText: string) => {
         props.addTask(todolistID, newTitleText)
@@ -37,13 +40,17 @@ export const Todolist: React.FC<PropsType> = ({todolistID, ...props}) => {
                         props.removeTask(m.id, todolistID)
                     }
 
-                    const changeIsDoneCallBack = (e:ChangeEvent<HTMLInputElement>) => {
+                    const changeIsDoneCallBack = (e: ChangeEvent<HTMLInputElement>) => {
                         props.changeChecked(e.currentTarget.checked, todolistID, m.id)
+                    }
+
+                    const callBackForRenameTask = (newTitle:string) => {
+                        props.renameTask(newTitle, todolistID, m.id)
                     }
 
                     return (
                         <div key={m.id}>
-                            <span>{m.title}</span>
+                            <EditableSpan title={m.title} callBack={callBackForRenameTask}/>
                             <input
                                 type="checkbox"
                                 checked={m.isDone}
@@ -56,9 +63,21 @@ export const Todolist: React.FC<PropsType> = ({todolistID, ...props}) => {
                 })}
             </ul>
             <div>
-                <Button callBack={() => changeFilterCallback('all')} title={"All"}/>
-                <Button callBack={() => changeFilterCallback('active')} title={"Active"}/>
-                <Button callBack={() => changeFilterCallback('complete')} title={"Complete"}/>
+                <Button
+                    callBack={() => changeFilterCallback('all')}
+                    title={"All"}
+                    className={filter === 'all' ? s.Active : s.StandardButton}
+                />
+                <Button
+                    callBack={() => changeFilterCallback('active')}
+                    title={"Active"}
+                    className={filter === 'active' ? s.Active : s.StandardButton}
+                />
+                <Button
+                    callBack={() => changeFilterCallback('complete')}
+                    title={"Completed"}
+                    className={filter === 'complete' ? s.Active : s.StandardButton}
+                />
             </div>
         </div>
     )
