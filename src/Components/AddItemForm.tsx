@@ -3,24 +3,31 @@ import {Button} from "./Button";
 
 type PropsType = {
     callBack:(title:string)=>void
-    error:string
 }
 
-export const AddItemForm:React.FC<PropsType> = ({callBack,error}) =>{
+export const AddItemForm:React.FC<PropsType> = ({callBack}) =>{
 
     let [title,setTitle] = useState("")
+    let [error,setError] = useState<string|null>(null)
 
     const addInputItem = () =>{
-        callBack(title)
+        if(title.trim() !== ""){
+            callBack(title)
+            setTitle('')
+        }else{
+            setError("Title is required")
+        }
     }
 
     const onChangeHandler = (e:ChangeEvent<HTMLInputElement>) =>{
         setTitle(e.currentTarget.value)
+        setError(null)
     }
 
     const onKeyPressHandler = (e:KeyboardEvent<HTMLInputElement>) =>{
         if (e.key === "Enter"){
             addInputItem()
+            setTitle('')
         }
     }
 
@@ -28,7 +35,8 @@ export const AddItemForm:React.FC<PropsType> = ({callBack,error}) =>{
     return(
         <div>
             <input value={title} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
-            <Button callBack={addInputItem} error={error}/>
+            <Button callBack={addInputItem} error={error} title={'+'}/>
+            {error?<div>{error}</div>:""}
         </div>
     )
 }

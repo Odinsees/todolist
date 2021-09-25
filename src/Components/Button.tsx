@@ -3,7 +3,7 @@ import React from 'react';
 type PropsType = {
     title?:string
     callBack:()=>void
-    error?:string
+    error?:string|null
 }
 
 export const Button:React.FC<PropsType> = ({title,callBack,error}) =>{

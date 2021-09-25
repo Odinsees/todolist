@@ -3,12 +3,13 @@ import './App.css';
 import {Todolist} from "./Todolist";
 import {v1} from "uuid";
 
-export type FilterType = "all" | "active" | "complete"
-export type TodoListsType = {id: string, title: string, filter: FilterType}
-export type TaskType = {id: string, title: string, isDone: boolean}
+export type FilterValueType = "all" | "active" | "complete"
+export type TodoListsType = { id: string, title: string, filter: FilterValueType }
+export type TaskType = { id: string, title: string, isDone: boolean }
 export type TasksStateType = {
-    [key:string]:TaskType[]
+    [key: string]: TaskType[]
 }
+
 function App() {
 
     let todolistId1 = v1();
@@ -30,11 +31,26 @@ function App() {
         ]
     });
 
+    const addTask = (todolistID: string, newTaskText: string) => {
+        setTasks({...tasks, [todolistID]: [{id: v1(), title: newTaskText, isDone: false}, ...tasks[todolistID]]})
+    }
+
+    const removeTask = (titleID: string, todolistID: string) => {
+        setTasks({...tasks, [todolistID]: tasks[todolistID].filter(f => f.id !== titleID)})
+    }
+
     return (
         <div className="App">
-            {todolists.map(t=>{
-                return(
-                    <Todolist title={t.title} task={tasks[t.id]}/>
+            {todolists.map(t => {
+                return (
+                    <Todolist
+                        key={t.id}
+                        title={t.title}
+                        task={tasks[t.id]}
+                        todolistID={t.id}
+                        removeTask={removeTask}
+                        addTask={addTask}
+                    />
                 )
             })}
         </div>
