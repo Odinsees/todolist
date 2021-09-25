@@ -1,32 +1,42 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./Todolist";
+import {v1} from "uuid";
 
-
+export type FilterType = "all" | "active" | "complete"
+export type TodoListsType = {id: string, title: string, filter: FilterType}
+export type TaskType = {id: string, title: string, isDone: boolean}
+export type TasksStateType = {
+    [key:string]:TaskType[]
+}
 function App() {
 
-    const task1=[
-        {id:1, title:'HTML&CSS1',isDone:true},
-        {id:2, title:'JS1',isDone:true},
-        {id:3, title:'React1',isDone:true}
-    ]
+    let todolistId1 = v1();
+    let todolistId2 = v1();
 
-    const task2=[
-        {id:1, title:'HTML&CSS2',isDone:true},
-        {id:2, title:'JS2',isDone:true},
-        {id:3, title:'React2',isDone:true}
-    ]
+    let [todolists, setTodolists] = useState<Array<TodoListsType>>([
+        {id: todolistId1, title: "What to learn", filter: "all"},
+        {id: todolistId2, title: "What to buy", filter: "all"}
+    ])
+
+    let [tasks, setTasks] = useState<TasksStateType>({
+        [todolistId1]: [
+            {id: v1(), title: "HTML&CSS", isDone: true},
+            {id: v1(), title: "JS", isDone: true}
+        ],
+        [todolistId2]: [
+            {id: v1(), title: "Milk", isDone: true},
+            {id: v1(), title: "React Book", isDone: true}
+        ]
+    });
 
     return (
         <div className="App">
-            <Todolist
-            title1={"Todolist1"}
-            task={task1}
-            />
-            <Todolist
-                title1={"Todolist2"}
-                task={task2}
-            />
+            {todolists.map(t=>{
+                return(
+                    <Todolist title={t.title} task={tasks[t.id]}/>
+                )
+            })}
         </div>
     );
 }
