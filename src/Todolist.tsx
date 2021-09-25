@@ -1,33 +1,38 @@
 import React from 'react';
-import {TaskType} from "./App";
+import {FilterValueType, TaskType} from "./App";
 import {Button} from "./Components/Button";
 import {AddItemForm} from "./Components/AddItemForm";
 
 
-type PropsType={
-    title:string
+type PropsType = {
+    title: string
     task: TaskType[]
-    todolistID:string
-    removeTask:(todolistID:string,titleID:string)=>void
-    addTask:(todolistID:string,newTitleText:string)=>void
+    todolistID: string
+    removeTask: (todolistID: string, titleID: string) => void
+    addTask: (todolistID: string, newTitleText: string) => void
+    changeFilter: (value: FilterValueType, todolistID:string) => void
 }
 
-export const Todolist:React.FC<PropsType> = ({todolistID,...props}) =>{
+export const Todolist: React.FC<PropsType> = ({todolistID, ...props}) => {
 
-    const callBackFromAddTask = (newTitleText:string) => {
-        props.addTask(todolistID,newTitleText)
+    const callBackFromAddTask = (newTitleText: string) => {
+        props.addTask(todolistID, newTitleText)
     }
 
-    return(
+    const changeFilterCallback = (value: FilterValueType) => {
+        props.changeFilter(value, todolistID)
+    }
+
+    return (
         <div>
             <h3>{props.title}</h3>
             <div>
                 <AddItemForm callBack={callBackFromAddTask}/>
             </div>
             <ul>
-                {props.task.map(m=>{
+                {props.task.map(m => {
                     const callBackFromRemoveTask = () => {
-                        props.removeTask(m.id,todolistID)
+                        props.removeTask(m.id, todolistID)
                     }
                     return (
                         <div key={m.id}>
@@ -40,9 +45,9 @@ export const Todolist:React.FC<PropsType> = ({todolistID,...props}) =>{
                 })}
             </ul>
             <div>
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
+                <Button callBack={() => changeFilterCallback('all')} title={"All"}/>
+                <Button callBack={() => changeFilterCallback('active')} title={"Active"}/>
+                <Button callBack={() => changeFilterCallback('complete')} title={"Complete"}/>
             </div>
         </div>
     )
