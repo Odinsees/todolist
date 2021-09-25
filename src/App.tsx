@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./Todolist";
 import {v1} from "uuid";
+import {AddItemForm} from "./Components/AddItemForm";
 
 export type FilterValueType = "all" | "active" | "complete"
 export type TodoListsType = { id: string, title: string, filter: FilterValueType }
@@ -30,7 +31,13 @@ function App() {
             {id: v1(), title: "React Book", isDone: false}
         ]
     });
-
+    
+    const addTodolist = (newTitle:string) => {
+        let newTodolist:TodoListsType = {id: v1(), title: newTitle, filter: "all"}
+        setTodolists([...todolists,newTodolist])
+        setTasks({...tasks,[newTodolist.id]:[]})
+    }
+    
     const addTask = (todolistID: string, newTaskText: string) => {
         setTasks({...tasks, [todolistID]: [{id: v1(), title: newTaskText, isDone: false}, ...tasks[todolistID]]})
     }
@@ -39,22 +46,25 @@ function App() {
         setTasks({...tasks, [todolistID]: tasks[todolistID].filter(f => f.id !== titleID)})
     }
 
-    const changeFilter = (value:FilterValueType, todolistID:string) =>{
-        setTodolists(todolists.map(m=>m.id===todolistID?{...m,filter:value}:m))
+    const changeFilter = (value: FilterValueType, todolistID: string) => {
+        setTodolists(todolists.map(m => m.id === todolistID ? {...m, filter: value} : m))
+    }
+
+    const changeChecked = (isDone: boolean, todolistID: string, taskID: string) => {
+        setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskID ? {...m, isDone: isDone} : m)})
     }
 
     return (
         <div className="App">
+            <AddItemForm callBack={addTodolist}/>
             {todolists.map(t => {
-
                 let taskForTodolist = tasks[t.id];
-                if(t.filter === "active"){
-                    taskForTodolist = tasks[t.id].filter(f=>!f.isDone)
+                if (t.filter === "active") {
+                    taskForTodolist = tasks[t.id].filter(f => !f.isDone)
                 }
-                if(t.filter === "complete"){
-                    taskForTodolist = tasks[t.id].filter(f=>f.isDone)
+                if (t.filter === "complete") {
+                    taskForTodolist = tasks[t.id].filter(f => f.isDone)
                 }
-
                 return (
                     <Todolist
                         key={t.id}
@@ -64,6 +74,7 @@ function App() {
                         removeTask={removeTask}
                         addTask={addTask}
                         changeFilter={changeFilter}
+                        changeChecked={changeChecked}
                     />
                 )
             })}
