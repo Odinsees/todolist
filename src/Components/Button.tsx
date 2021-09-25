@@ -1,19 +1,19 @@
 import React from 'react';
 
 type PropsType = {
-    title?:string
-    callBack:()=>void
-    error?:string|null
-    className?:string
+    title?: string
+    callBack: () => void
+    error?: string | null
+    className?: string
 }
 
-export const Button:React.FC<PropsType> = ({title,callBack,error,className}) =>{
+export const Button: React.FC<PropsType> = ({title, callBack, error, className}) => {
 
-    const onClickHandler = () =>{
+    const onClickHandler = () => {
         callBack()
     }
 
-    return(
+    return (
         <button
             disabled={!!error}
             onClick={onClickHandler}

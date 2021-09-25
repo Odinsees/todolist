@@ -31,13 +31,13 @@ function App() {
             {id: v1(), title: "React Book", isDone: false}
         ]
     });
-    
-    const addTodolist = (newTitle:string) => {
-        let newTodolist:TodoListsType = {id: v1(), title: newTitle, filter: "all"}
-        setTodolists([...todolists,newTodolist])
-        setTasks({...tasks,[newTodolist.id]:[]})
+
+    const addTodolist = (newTitle: string) => {
+        let newTodolist: TodoListsType = {id: v1(), title: newTitle, filter: "all"}
+        setTodolists([...todolists, newTodolist])
+        setTasks({...tasks, [newTodolist.id]: []})
     }
-    
+
     const addTask = (todolistID: string, newTaskText: string) => {
         setTasks({...tasks, [todolistID]: [{id: v1(), title: newTaskText, isDone: false}, ...tasks[todolistID]]})
     }
@@ -54,8 +54,12 @@ function App() {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskID ? {...m, isDone: isDone} : m)})
     }
 
-    const renameTask = (newTitle:string, todolistID:string, taskID:string) =>{
-        setTasks({...tasks,[todolistID]:tasks[todolistID].map(m=>m.id === taskID?{...m,title:newTitle}:m)})
+    const renameTask = (newTitle: string, todolistID: string, taskID: string) => {
+        setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskID ? {...m, title: newTitle} : m)})
+    }
+
+    const renameTodolist = (newTitle: string, todolistID: string) => {
+        setTodolists(todolists.map(m => m.id === todolistID ? {...m, title: newTitle} : m))
     }
 
     return (
@@ -81,6 +85,7 @@ function App() {
                         changeChecked={changeChecked}
                         filter={t.filter}
                         renameTask={renameTask}
+                        renameTodolist={renameTodolist}
                     />
                 )
             })}

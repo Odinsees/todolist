@@ -14,7 +14,8 @@ type PropsType = {
     changeFilter: (value: FilterValueType, todolistID: string) => void
     changeChecked: (isDone: boolean, todolistID: string, taskID: string) => void
     filter: FilterValueType
-    renameTask:(newTitle:string, todolistID:string, taskID:string)=>void
+    renameTask: (newTitle: string, todolistID: string, taskID: string) => void
+    renameTodolist: (newTitle: string, todolistID: string) => void
 }
 
 export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) => {
@@ -27,10 +28,14 @@ export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) =>
         props.changeFilter(value, todolistID)
     }
 
+    const changeTodolistNameCallBack = (newTitle: string) => {
+        props.renameTodolist(newTitle, todolistID)
+    }
+
 
     return (
         <div>
-            <h3>{props.title}</h3>
+            <h3><EditableSpan title={props.title} callBack={changeTodolistNameCallBack}/></h3>
             <div>
                 <AddItemForm callBack={callBackFromAddTask}/>
             </div>
@@ -44,7 +49,7 @@ export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) =>
                         props.changeChecked(e.currentTarget.checked, todolistID, m.id)
                     }
 
-                    const callBackForRenameTask = (newTitle:string) => {
+                    const callBackForRenameTask = (newTitle: string) => {
                         props.renameTask(newTitle, todolistID, m.id)
                     }
 
