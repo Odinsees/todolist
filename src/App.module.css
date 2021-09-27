@@ -1,0 +1,20 @@
+.App {
+  min-width: 100vh;
+  background: url("./background4.jpg");
+  margin: 0 auto;
+  padding: 40px;
+  min-height: 100vh;
+}
+
+.addForm {
+  width: fit-content;
+}
+
+.todolistComponent{
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+
+

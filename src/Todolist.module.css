@@ -1,4 +1,35 @@
-.Active{
-    background-color: green;
-    color: white;
+.content{
+    margin-right: 40px;
+    margin-top: 40px;
+    width: fit-content;
+}
+
+.task{
+    display: flex;
+    align-items: center;
+    max-width: 300px;
+    font-weight: 600;
+    padding-left: 10px;
+    padding-top: 2px;
+}
+
+.title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editSpan{
+    min-width: 70%;
+}
+
+.taskCheckBox{
+    width: 20%;
+}
+
+.buttonBox{
+    padding-top: 10px;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
 }

@@ -1,7 +1,8 @@
-.errorInput{
-    border: 3px solid red;
+.content{
+    display: flex;
 }
 
-.error{
-    color: red;
+.textField{
+    margin-right: 10px;
+    font-weight: 600;
 }

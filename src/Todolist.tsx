@@ -1,9 +1,10 @@
 import React, {ChangeEvent} from 'react';
 import {FilterValueType, TaskType} from "./App";
-import {Button} from "./Components/Button";
+import {ButtonFC} from "./Components/ButtonFC";
 import {AddItemForm} from "./Components/AddItemForm";
-import s from "./Todolist.module.css"
 import {EditableSpan} from "./Components/EditableSpan";
+import {Checkbox} from "@material-ui/core";
+import s from "./Todolist.module.css"
 
 type PropsType = {
     title: string
@@ -16,6 +17,7 @@ type PropsType = {
     filter: FilterValueType
     renameTask: (newTitle: string, todolistID: string, taskID: string) => void
     renameTodolist: (newTitle: string, todolistID: string) => void
+    removeTodolist:(todolistID: string)=>void
 }
 
 export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) => {
@@ -32,14 +34,19 @@ export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) =>
         props.renameTodolist(newTitle, todolistID)
     }
 
+    const callBackFromRemoveTodolist = () => {
+        props.removeTodolist(todolistID)
+    }
 
     return (
-        <div>
-            <h3><EditableSpan title={props.title} callBack={changeTodolistNameCallBack}/></h3>
+        <div className={s.content}>
+            <div className={s.title}>
+                <h3><EditableSpan title={props.title} callBack={changeTodolistNameCallBack}/></h3>
+                <ButtonFC callBack={callBackFromRemoveTodolist} iconButton={true}/>
+            </div>
             <div>
                 <AddItemForm callBack={callBackFromAddTask}/>
             </div>
-            <ul>
                 {props.task.map(m => {
                     const callBackFromRemoveTask = () => {
                         props.removeTask(m.id, todolistID)
@@ -54,34 +61,52 @@ export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) =>
                     }
 
                     return (
-                        <div key={m.id}>
-                            <EditableSpan title={m.title} callBack={callBackForRenameTask}/>
-                            <input
-                                type="checkbox"
-                                checked={m.isDone}
-                                onChange={changeIsDoneCallBack}
-                            />
-                            <Button callBack={callBackFromRemoveTask} title={'x'}/>
+                        <div key={m.id} className={s.task}>
+                            <div className={s.editSpan}>
+                                <EditableSpan title={m.title} callBack={callBackForRenameTask}/>
+                            </div>
+                            <div className={s.taskCheckBox}>
+                                <Checkbox
+                                    checked={m.isDone}
+                                    color={"primary"}
+                                    onChange={changeIsDoneCallBack}
+                                    inputProps={{ 'aria-label': 'controlled' }}
+                                />
+                            </div>
+                            <div className={s.removeTaskBTN}>
+                                <ButtonFC callBack={callBackFromRemoveTask} iconButton={true}/>
+                            </div>
                         </div>
 
                     )
                 })}
-            </ul>
-            <div>
-                <Button
+            <div className={s.buttonBox}>
+                <ButtonFC
                     callBack={() => changeFilterCallback('all')}
                     title={"All"}
-                    className={filter === 'all' ? s.Active : s.StandardButton}
+                    variant={filter === 'all'
+                        ? 'contained'
+                        : 'outlined'}
+                    color={"primary"}
+                    iconButton={false}
                 />
-                <Button
+                <ButtonFC
                     callBack={() => changeFilterCallback('active')}
                     title={"Active"}
-                    className={filter === 'active' ? s.Active : s.StandardButton}
+                    variant={filter === 'active'
+                        ? 'contained'
+                        : 'outlined'}
+                    color={"primary"}
+                    iconButton={false}
                 />
-                <Button
+                <ButtonFC
                     callBack={() => changeFilterCallback('complete')}
                     title={"Completed"}
-                    className={filter === 'complete' ? s.Active : s.StandardButton}
+                    variant={filter === 'complete'
+                        ? 'contained'
+                        : 'outlined'}
+                    color={"primary"}
+                    iconButton={false}
                 />
             </div>
         </div>

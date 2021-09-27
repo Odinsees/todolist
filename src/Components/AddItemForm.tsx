@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Button} from "./Button";
+import {ButtonFC} from "./ButtonFC";
 import s from "./AddItemForm.module.css"
+import {TextField} from "@material-ui/core";
 
 type PropsType = {
     callBack: (title: string) => void
@@ -32,17 +33,46 @@ export const AddItemForm: React.FC<PropsType> = ({callBack}) => {
         }
     }
 
-
+    /*const onBlurHandler = () =>{
+        setError(null)
+    }
+*/
     return (
-        <div>
-            <input
-                value={title}
-                onChange={onChangeHandler}
-                onKeyPress={onKeyPressHandler}
-                className={error ? s.errorInput : ''}
+        <div className={s.content}>
+            {error
+                ?
+                <div ref={'input'} className={s.textField}>
+                    <TextField
+                        error
+                        id="outlined-error-helper-text"
+                        label={error}
+                        helperText="Incorrect entry."
+                        value={title}
+                        onChange={onChangeHandler}
+                        /*onBlur={onBlurHandler}*/
+                    />
+                </div>
+                :
+                <div className={s.textField}>
+                    <TextField
+                        id="outlined-basic"
+                        variant="outlined"
+                        value={title}
+                        onChange={onChangeHandler}
+                        onKeyPress={onKeyPressHandler}
+                        className={error ? s.errorInput : ''}
+                    />
+                </div>
+            }
+            <ButtonFC
+                callBack={addInputItem}
+                title={'+'}
+                error={error}
+                variant={'contained'}
+                color={"primary"}
+                iconButton={false}
             />
-            <Button callBack={addInputItem} error={error} title={'+'}/>
-            {error ? <div className={s.error}>{error}</div> : ""}
+            {/*{error ? <div className={s.error}>{error}</div> : ""}*/}
         </div>
     )
 }
