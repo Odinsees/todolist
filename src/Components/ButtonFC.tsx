@@ -1,7 +1,6 @@
 import React from 'react';
 import {Button, IconButton} from '@material-ui/core';
 import {Delete} from '@material-ui/icons';
-import s from "./ButtonFC.module.css"
 
 type PropsType = {
     title?: string
