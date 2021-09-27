@@ -33,15 +33,12 @@ export const AddItemForm: React.FC<PropsType> = ({callBack}) => {
         }
     }
 
-    /*const onBlurHandler = () =>{
-        setError(null)
-    }
-*/
+
     return (
         <div className={s.content}>
             {error
                 ?
-                <div ref={'input'} className={s.textField}>
+                <div className={s.textField}>
                     <TextField
                         error
                         id="outlined-error-helper-text"
