@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {ButtonFC} from "./ButtonFC";
+import {ButtonFC} from "../ButtonFC/ButtonFC";
 import s from "./AddItemForm.module.css"
 import {TextField} from "@material-ui/core";
 

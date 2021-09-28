@@ -1,8 +1,8 @@
 import React, {ChangeEvent} from 'react';
-import {FilterValueType, TaskType} from "./App";
-import {ButtonFC} from "./Components/ButtonFC";
-import {AddItemForm} from "./Components/AddItemForm";
-import {EditableSpan} from "./Components/EditableSpan";
+import {FilterValueType, TaskType} from "../../App";
+import {ButtonFC} from "../ButtonFC/ButtonFC";
+import {AddItemForm} from "../AddItemForm/AddItemForm";
+import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Checkbox} from "@material-ui/core";
 import s from "./Todolist.module.css"
 

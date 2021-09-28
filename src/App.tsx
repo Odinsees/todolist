@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import './App.module.css';
-import {Todolist} from "./Todolist";
+import {Todolist} from "./Components/Todolist/Todolist";
 import {v1} from "uuid";
-import {AddItemForm} from "./Components/AddItemForm";
+import {AddItemForm} from "./Components/AddItemForm/AddItemForm";
 import s from "./App.module.css"
 
 export type FilterValueType = "all" | "active" | "complete"
@@ -39,20 +39,27 @@ function App() {
         setTasks({...tasks, [newTodolist.id]: []})
     }
 
+    const removeTodolist = (todolistID: string) => {
+        setTodolists(todolists.filter(m => m.id !== todolistID))
+        delete tasks[todolistID]
+    }
+
+    const renameTodolist = (newTitle: string, todolistID: string) => {
+        setTodolists(todolists.map(m => m.id === todolistID ? {...m, title: newTitle} : m))
+    }
+
+    const changeFilter = (value: FilterValueType, todolistID: string) => {
+        setTodolists(todolists.map(m => m.id === todolistID ? {...m, filter: value} : m))
+    }
+
+
+
     const addTask = (todolistID: string, newTaskText: string) => {
         setTasks({...tasks, [todolistID]: [{id: v1(), title: newTaskText, isDone: false}, ...tasks[todolistID]]})
     }
 
     const removeTask = (titleID: string, todolistID: string) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].filter(f => f.id !== titleID)})
-    }
-
-    const removeTodolist = (todolistID: string) => {
-        setTodolists(todolists.filter(m => m.id !== todolistID))
-    }
-
-    const changeFilter = (value: FilterValueType, todolistID: string) => {
-        setTodolists(todolists.map(m => m.id === todolistID ? {...m, filter: value} : m))
     }
 
     const changeChecked = (isDone: boolean, todolistID: string, taskID: string) => {
@@ -63,9 +70,7 @@ function App() {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskID ? {...m, title: newTitle} : m)})
     }
 
-    const renameTodolist = (newTitle: string, todolistID: string) => {
-        setTodolists(todolists.map(m => m.id === todolistID ? {...m, title: newTitle} : m))
-    }
+
 
 
     return (
