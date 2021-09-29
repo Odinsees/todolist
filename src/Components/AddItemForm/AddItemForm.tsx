@@ -1,7 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {ButtonFC} from "../ButtonFC/ButtonFC";
 import s from "./AddItemForm.module.css"
-import {TextField} from "@material-ui/core";
+import {Button, TextField} from "@material-ui/core";
 
 type PropsType = {
     callBack: (title: string) => void
@@ -10,20 +10,20 @@ type PropsType = {
 export const AddItemForm: React.FC<PropsType> = ({callBack}) => {
 
     let [title, setTitle] = useState("")
-    let [error, setError] = useState<string | null>(null)
+    let [error, setError] = useState<boolean>(false)
 
     const addInputItem = () => {
         if (title.trim() !== "") {
             callBack(title)
             setTitle('')
         } else {
-            setError("Title is required")
+            setError(true)
         }
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
-        setError(null)
+        setError(false)
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -35,41 +35,28 @@ export const AddItemForm: React.FC<PropsType> = ({callBack}) => {
 
 
     return (
-        <div className={s.content}>
-            {error
-                ?
+            <div className={s.content}>
                 <div className={s.textField}>
                     <TextField
-                        error
-                        id="outlined-error-helper-text"
-                        label={error}
-                        helperText="Incorrect entry."
-                        value={title}
-                        onChange={onChangeHandler}
-                        /*onBlur={onBlurHandler}*/
-                    />
-                </div>
-                :
-                <div className={s.textField}>
-                    <TextField
+                        error={error}
                         id="outlined-basic"
+                        label="Title is required"
                         variant="outlined"
                         value={title}
                         onChange={onChangeHandler}
                         onKeyPress={onKeyPressHandler}
-                        className={error ? s.errorInput : ''}
+                        color={error?'secondary':'primary'}
+                        size="small"
                     />
                 </div>
-            }
-            <ButtonFC
-                callBack={addInputItem}
-                title={'+'}
-                error={error}
-                variant={'contained'}
-                color={"primary"}
-                iconButton={false}
-            />
-            {/*{error ? <div className={s.error}>{error}</div> : ""}*/}
-        </div>
+                <Button variant="contained"
+                        color='primary'
+                        style={{maxWidth: '37px', maxHeight: '70px', minWidth: '37px', minHeight: '37px'}}
+                        onClick={addInputItem}
+                        disabled={error}
+                >+
+                </Button>
+            </div>
     )
 }
+
