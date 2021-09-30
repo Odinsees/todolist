@@ -47,6 +47,7 @@ export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) =>
             </h3>
             <AddItemForm callBack={callBackFromAddTask}/>
             {props.task.map(m => {
+                debugger
                 const callBackFromRemoveTask = () => {
                     props.removeTask(m.id, todolistID)
                 }
@@ -75,7 +76,7 @@ export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) =>
                     </div>
                 )
             })}
-            <div>
+            <div style={{paddingTop : "5px"}}>
                 <Button variant={filter === 'all' ? "contained" : 'outlined'} color="primary"
                         onClick={() => changeFilterCallback('all')}>All</Button>
                 <Button variant={filter === 'active' ? "contained" : 'outlined'} color="primary"

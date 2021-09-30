@@ -11,7 +11,6 @@ export const AddItemForm: React.FC<PropsType> = ({callBack}) => {
     let [error, setError] = useState(false)
 
     const addInputItem = () => {
-        debugger
         if (title.trim() !== "") {
             callBack(title)
             setTitle('')

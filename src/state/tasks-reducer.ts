@@ -4,14 +4,17 @@ import {addTodolistAC} from "./todolists-reducer";
 
 type TaskActionsType =
     | ReturnType<typeof addTaskAC>
-    | ReturnType <typeof addTodolistAC>
+    | ReturnType<typeof addTodolistAC>
     | ReturnType<typeof removeTaskAC>
+    | ReturnType<typeof changeCheckedAC>
+    | ReturnType<typeof renameTaskAC>
 
 
-export const TasksReducer = (state: TasksStateType, action: TaskActionsType):TasksStateType => {
+export const TasksReducer = (state: TasksStateType, action: TaskActionsType): TasksStateType => {
     switch (action.type) {
         case "ADD-TODOLIST": {
-            return {...state, [action.newTodolistID]: []}
+            debugger
+            return {...state, [action.newTodolistId]: []}
         }
         case "ADD-TASK": {
             return {
@@ -26,6 +29,24 @@ export const TasksReducer = (state: TasksStateType, action: TaskActionsType):Tas
                 [action.todolistID]: state[action.todolistID].filter(f => f.id !== action.titleID)
             }
         }
+        case "CHANGE-CHECKED": {
+            return {
+                ...state,
+                [action.todolistID]: state[action.todolistID].map(t => t.id === action.taskID ? {
+                    ...t,
+                    isDone: action.isDone
+                } : t)
+            }
+        }
+        case "RENAME-TASK": {
+            return {
+                ...state,
+                [action.todolistID]: state[action.todolistID].map(t => t.id === action.taskID ? {
+                    ...t,
+                    title: action.newTitle
+                } : t)
+            }
+        }
         default:
             return state
     }
@@ -37,4 +58,10 @@ export const addTaskAC = (todolistID: string, newTaskText: string) => {
 }
 export const removeTaskAC = (todolistID: string, titleID: string) => {
     return {type: "REMOVE-TASK", titleID, todolistID} as const
+}
+export const changeCheckedAC = (isDone: boolean, todolistID: string, taskID: string) => {
+    return {type: "CHANGE-CHECKED", isDone, todolistID, taskID} as const
+}
+export const renameTaskAC = (newTitle: string, todolistID: string, taskID: string) => {
+    return {type: "RENAME-TASK", newTitle, todolistID, taskID} as const
 }
