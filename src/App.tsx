@@ -43,12 +43,14 @@ function App() {
     });
 
     const addTodolist = (newTitle: string) => {
-        let newTodolistId = v1()
-        dispatchTodolist(addTodolistAC(newTitle, newTodolistId))
-        dispatchTask(addTodolistAC(newTitle, newTodolistId))
+        let action = addTodolistAC(newTitle)
+        dispatchTodolist(action)
+        dispatchTask(action)
     }
     const removeTodolist = (todolistID: string) => {
-        dispatchTodolist(removeTodolistAC(todolistID))
+        let action = removeTodolistAC(todolistID)
+        dispatchTodolist(action)
+        dispatchTask(action)
     }
     const renameTodolist = (newTitle: string, todolistID: string) => {
         dispatchTodolist(renameTodolistAC(todolistID, newTitle))
