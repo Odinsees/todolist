@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
 import {Todolist} from "./Components/Todolist/Todolist";
 import {v1} from "uuid";
@@ -67,12 +67,10 @@ function App() {
     }
 
     const changeChecked = (isDone: boolean, todolistID: string, taskID: string) => {
-        //setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskID ? {...m, isDone: isDone} : m)})
         dispatchTask(changeCheckedAC(isDone, todolistID, taskID))
     }
 
     const renameTask = (newTitle: string, todolistID: string, taskID: string) => {
-        //setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskID ? {...m, title: newTitle} : m)})
         dispatchTask(renameTaskAC(newTitle, todolistID, taskID))
     }
 

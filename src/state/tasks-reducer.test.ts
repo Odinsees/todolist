@@ -98,10 +98,10 @@ test ('correct task isDone should be changed',()=>{
     }
 
     let taskID = startState[todolistId1][0].id
-    let isDone = false
+    let isDone = !startState[todolistId1][0].isDone
 
     const endState = TasksReducer(startState, changeCheckedAC(isDone, todolistId1, taskID))
-    expect(endState[todolistId1][0].isDone).toBe(false)
+    expect(endState[todolistId1][0].isDone).toBe(!startState[todolistId1][0].isDone)
     expect(endState[todolistId1][1].isDone).toBe(false)
     expect(endState[todolistId2][0].isDone).toBe(true)
 

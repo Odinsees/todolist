@@ -26,25 +26,25 @@ export const TasksReducer = (state: TasksStateType, action: TaskActionsType): Ta
         case "REMOVE-TASK": {
             return {
                 ...state,
-                [action.todolistID]: state[action.todolistID].filter(f => f.id !== action.titleID)
+                [action.todolistID]: state[action.todolistID].filter(task => task.id !== action.titleID)
             }
         }
         case "CHANGE-CHECKED": {
             return {
                 ...state,
-                [action.todolistID]: state[action.todolistID].map(t => t.id === action.taskID ? {
-                    ...t,
+                [action.todolistID]: state[action.todolistID].map(task => task.id === action.taskID ? {
+                    ...task,
                     isDone: action.isDone
-                } : t)
+                } : task)
             }
         }
         case "RENAME-TASK": {
             return {
                 ...state,
-                [action.todolistID]: state[action.todolistID].map(t => t.id === action.taskID ? {
-                    ...t,
+                [action.todolistID]: state[action.todolistID].map(task => task.id === action.taskID ? {
+                    ...task,
                     title: action.newTitle
-                } : t)
+                } : task)
             }
         }
         default:
