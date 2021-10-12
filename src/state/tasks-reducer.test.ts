@@ -1,13 +1,12 @@
 import {v1} from "uuid";
 import {TasksStateType} from "../App";
-import {addTaskAC, changeCheckedAC, removeTaskAC, renameTaskAC, TasksReducer} from "./tasks-reducer";
+import {addTaskAC, changeCheckedAC, removeTaskAC, renameTaskAC, tasksReducer} from "./tasks-reducer";
 import {addTodolistAC} from "./todolists-reducer";
 
 test('correct new task array should be added when new todolist added', () => {
 
     let todolistId1 = v1();
     let todolistId2 = v1();
-    let newTodolistID = v1()
 
     let startState: TasksStateType = {
         [todolistId1]: [
@@ -20,7 +19,7 @@ test('correct new task array should be added when new todolist added', () => {
         ]
     }
 
-    const endState = TasksReducer(startState, addTodolistAC("New Todolist", newTodolistID))
+    const endState = tasksReducer(startState, addTodolistAC("New Todolist"))
 
     let key = Object.keys(endState)
     let newKey = key.find(k => k !== todolistId1 && k !== todolistId2)
@@ -49,7 +48,7 @@ test('correct task  should be added', () => {
         ]
     }
 
-    const endState = TasksReducer(startState, addTaskAC(todolistId1, newTaskText))
+    const endState = tasksReducer(startState, addTaskAC(todolistId1, newTaskText))
 
     expect(endState[todolistId1].length).toBe(3)
     expect(endState[todolistId2].length).toBe(2)
@@ -73,7 +72,7 @@ test('correct task  should be remove', () => {
         ]
     }
 
-    const endState = TasksReducer(startState, removeTaskAC(todolistId1, startState[todolistId1][0].id))
+    const endState = tasksReducer(startState, removeTaskAC(todolistId1, startState[todolistId1][0].id))
 
     expect(endState[todolistId1].length).toBe(1)
     expect(endState[todolistId2].length).toBe(2)
@@ -100,7 +99,7 @@ test ('correct task isDone should be changed',()=>{
     let taskID = startState[todolistId1][0].id
     let isDone = !startState[todolistId1][0].isDone
 
-    const endState = TasksReducer(startState, changeCheckedAC(isDone, todolistId1, taskID))
+    const endState = tasksReducer(startState, changeCheckedAC(isDone, todolistId1, taskID))
     expect(endState[todolistId1][0].isDone).toBe(!startState[todolistId1][0].isDone)
     expect(endState[todolistId1][1].isDone).toBe(false)
     expect(endState[todolistId2][0].isDone).toBe(true)
@@ -126,7 +125,7 @@ test('correct task name should be changed', ()=>{
     let newTitle = 'New title'
     let taskID = startState[todolistId1][0].id
 
-    const endState = TasksReducer(startState, renameTaskAC(newTitle, todolistId1, taskID))
+    const endState = tasksReducer(startState, renameTaskAC(newTitle, todolistId1, taskID))
 
     expect(endState[todolistId1][0].title).toBe('New title')
     expect(endState[todolistId1][1].title).toBe("JS")

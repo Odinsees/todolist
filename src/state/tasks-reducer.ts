@@ -12,7 +12,7 @@ type TaskActionsType =
 
 
 
-export const TasksReducer = (state: TasksStateType, action: TaskActionsType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType, action: TaskActionsType): TasksStateType => {
     switch (action.type) {
         case "ADD-TODOLIST": {
             return {...state, [action.newTodolistId]: []}

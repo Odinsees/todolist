@@ -12,7 +12,7 @@ import {
 } from "./state/todolists-reducer";
 import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {addTaskAC, changeCheckedAC, removeTaskAC, renameTaskAC, TasksReducer} from "./state/tasks-reducer";
+import {addTaskAC, changeCheckedAC, removeTaskAC, renameTaskAC, tasksReducer} from "./state/tasks-reducer";
 
 export type FilterValueType = "all" | "active" | "complete"
 export type TodoListsType = { id: string, title: string, filter: FilterValueType }
@@ -31,7 +31,7 @@ function App() {
         {id: todolistId2, title: "What to buy", filter: "all"}
     ])
 
-    let [tasks, dispatchTask] = useReducer(TasksReducer, {
+    let [tasks, dispatchTask] = useReducer(tasksReducer, {
         [todolistId1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: false}
@@ -63,15 +63,12 @@ function App() {
     const addTask = (todolistID: string, newTaskText: string) => {
         dispatchTask(addTaskAC(todolistID, newTaskText))
     }
-
     const removeTask = (titleID: string, todolistID: string) => {
         dispatchTask(removeTaskAC(todolistID, titleID))
     }
-
     const changeChecked = (isDone: boolean, todolistID: string, taskID: string) => {
         dispatchTask(changeCheckedAC(isDone, todolistID, taskID))
     }
-
     const renameTask = (newTitle: string, todolistID: string, taskID: string) => {
         dispatchTask(renameTaskAC(newTitle, todolistID, taskID))
     }
