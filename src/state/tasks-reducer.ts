@@ -1,4 +1,3 @@
-import {TasksStateType} from "../App";
 import {v1} from "uuid";
 import {addTodolistAC, removeTodolistAC} from "./todolists-reducer";
 
@@ -10,14 +9,18 @@ type TaskActionsType =
     | ReturnType<typeof changeCheckedAC>
     | ReturnType<typeof renameTaskAC>
 
+export type TaskType = { id: string, title: string, isDone: boolean }
+export type TasksStateType = {
+    [key: string]: TaskType[]
+}
+const initialState: TasksStateType = {}
 
-
-export const tasksReducer = (state: TasksStateType, action: TaskActionsType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialState, action: TaskActionsType): TasksStateType => {
     switch (action.type) {
         case "ADD-TODOLIST": {
             return {...state, [action.newTodolistId]: []}
         }
-        case "REMOVE-TODOLIST":{
+        case "REMOVE-TODOLIST": {
             let stateCopy = {...state}
             delete stateCopy[action.todolistID]
             return stateCopy
@@ -71,6 +74,6 @@ export const changeCheckedAC = (isDone: boolean, todolistID: string, taskID: str
 export const renameTaskAC = (newTitle: string, todolistID: string, taskID: string) => {
     return {type: "RENAME-TASK", newTitle, todolistID, taskID} as const
 }
-export const removeTaskArrayAfterRemoveTodolist = (todolistID:string) => {
-    return {type: "REMOVE-TASK-ARRAY-FOR-TODOLIST", todolistID:todolistID} as const
+export const removeTaskArrayAfterRemoveTodolist = (todolistID: string) => {
+    return {type: "REMOVE-TASK-ARRAY-FOR-TODOLIST", todolistID: todolistID} as const
 }

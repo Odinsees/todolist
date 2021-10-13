@@ -1,40 +1,49 @@
 import React, {ChangeEvent} from 'react';
-import {FilterValueType, TaskType} from "../../App";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
+import {addTaskAC, changeCheckedAC, removeTaskAC, renameTaskAC, TaskType} from "../../state/tasks-reducer";
+import {FilterValueType} from "../../state/todolists-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootState} from "../../Store/Store";
 
 type PropsType = {
     title: string
-    task: TaskType[]
     todolistID: string
-    removeTask: (todolistID: string, titleID: string) => void
-    addTask: (todolistID: string, newTitleText: string) => void
     changeFilter: (value: FilterValueType, todolistID: string) => void
-    changeChecked: (isDone: boolean, todolistID: string, taskID: string) => void
     filter: FilterValueType
-    renameTask: (newTitle: string, todolistID: string, taskID: string) => void
     renameTodolist: (newTitle: string, todolistID: string) => void
     removeTodolist: (todolistID: string) => void
 }
 
 export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) => {
 
+
+    const dispatch = useDispatch()
+    const task = useSelector<AppRootState, TaskType[]>(state => state.tasks[todolistID])
+
+
     const callBackFromAddTask = (newTitleText: string) => {
-        props.addTask(todolistID, newTitleText)
+        dispatch(addTaskAC(todolistID, newTitleText))
     }
 
     const changeFilterCallback = (value: FilterValueType) => {
         props.changeFilter(value, todolistID)
     }
-
     const changeTodolistNameCallBack = (newTitle: string) => {
         props.renameTodolist(newTitle, todolistID)
     }
-
     const callBackFromRemoveTodolist = () => {
         props.removeTodolist(todolistID)
+    }
+
+    let taskForTodolist = task;
+    if (filter === "active") {
+        taskForTodolist = task.filter(f => !f.isDone)
+    }
+    if (filter === "complete") {
+        taskForTodolist = task.filter(f => f.isDone)
     }
 
     return (
@@ -46,18 +55,15 @@ export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) =>
                 </IconButton>
             </h3>
             <AddItemForm callBack={callBackFromAddTask}/>
-            {props.task.map(m => {
-                debugger
+            {taskForTodolist.map(m => {
                 const callBackFromRemoveTask = () => {
-                    props.removeTask(m.id, todolistID)
+                    dispatch(removeTaskAC(todolistID, m.id))
                 }
-
                 const changeIsDoneCallBack = (e: ChangeEvent<HTMLInputElement>) => {
-                    props.changeChecked(e.currentTarget.checked, todolistID, m.id)
+                    dispatch(changeCheckedAC(e.currentTarget.checked, todolistID, m.id))
                 }
-
                 const callBackForRenameTask = (newTitle: string) => {
-                    props.renameTask(newTitle, todolistID, m.id)
+                    dispatch(renameTaskAC(newTitle, todolistID, m.id))
                 }
 
                 return (
