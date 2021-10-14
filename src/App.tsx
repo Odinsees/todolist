@@ -11,7 +11,6 @@ import {
 } from "./state/todolists-reducer";
 import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {addTaskAC, changeCheckedAC, removeTaskAC, renameTaskAC, TasksStateType} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./Store/Store";
 

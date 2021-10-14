@@ -10,7 +10,17 @@ let rootReducer = combineReducers({
 
 export type AppRootState = ReturnType<typeof rootReducer>
 
-export const store = createStore(rootReducer)
+let preloadedState;
+const persistedCounterString = localStorage.getItem("appState")
+if (persistedCounterString){
+    preloadedState = JSON.parse(persistedCounterString)
+}
+
+export const store = createStore(rootReducer,preloadedState)
+
+store.subscribe(()=>{
+    localStorage.setItem("appState", JSON.stringify(store.getState()))
+})
 
 // @ts-ignore
 window.store = store
