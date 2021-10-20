@@ -4,14 +4,13 @@ import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {addTaskAC, changeCheckedAC, removeTaskAC, renameTaskAC, TaskType} from "../../state/tasks-reducer";
-import {FilterValueType} from "../../state/todolists-reducer";
+import {changeFilterTodolistAC, FilterValueType} from "../../state/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../Store/Store";
 
 type PropsType = {
     title: string
     todolistID: string
-    changeFilter: (value: FilterValueType, todolistID: string) => void
     filter: FilterValueType
     renameTodolist: (newTitle: string, todolistID: string) => void
     removeTodolist: (todolistID: string) => void
@@ -27,9 +26,8 @@ export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) =>
     const callBackFromAddTask = (newTitleText: string) => {
         dispatch(addTaskAC(todolistID, newTitleText))
     }
-
-    const changeFilterCallback = (value: FilterValueType) => {
-        props.changeFilter(value, todolistID)
+    const changeFilter = (value: FilterValueType) => {
+        dispatch(changeFilterTodolistAC(todolistID, value))
     }
     const changeTodolistNameCallBack = (newTitle: string) => {
         props.renameTodolist(newTitle, todolistID)
@@ -84,11 +82,11 @@ export const Todolist: React.FC<PropsType> = ({todolistID, filter, ...props}) =>
             })}
             <div style={{paddingTop : "5px"}}>
                 <Button variant={filter === 'all' ? "contained" : 'outlined'} color="primary"
-                        onClick={() => changeFilterCallback('all')}>All</Button>
+                        onClick={() => changeFilter('all')}>All</Button>
                 <Button variant={filter === 'active' ? "contained" : 'outlined'} color="primary"
-                        onClick={() => changeFilterCallback('active')}>Active</Button>
+                        onClick={() => changeFilter('active')}>Active</Button>
                 <Button variant={filter === 'complete' ? "contained" : 'outlined'} color="primary"
-                        onClick={() => changeFilterCallback('complete')}>Completed</Button>
+                        onClick={() => changeFilter('complete')}>Completed</Button>
             </div>
         </div>
     )

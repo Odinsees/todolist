@@ -29,9 +29,6 @@ function App() {
     const renameTodolist = (newTitle: string, todolistID: string) => {
         dispatch(renameTodolistAC(todolistID, newTitle))
     }
-    const changeFilter = (value: FilterValueType, todolistID: string) => {
-        dispatch(changeFilterTodolistAC(todolistID, value))
-    }
 
 
     return (
@@ -68,7 +65,6 @@ function App() {
                                         key={t.id}
                                         title={t.title}
                                         todolistID={t.id}
-                                        changeFilter={changeFilter}
                                         filter={t.filter}
                                         renameTodolist={renameTodolist}
                                         removeTodolist={removeTodolist}

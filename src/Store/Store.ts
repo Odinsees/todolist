@@ -11,9 +11,9 @@ let rootReducer = combineReducers({
 export type AppRootState = ReturnType<typeof rootReducer>
 
 let preloadedState;
-const persistedCounterString = localStorage.getItem("appState")
-if (persistedCounterString){
-    preloadedState = JSON.parse(persistedCounterString)
+const persistedTodolistString = localStorage.getItem("appState")
+if (persistedTodolistString){
+    preloadedState = JSON.parse(persistedTodolistString)
 }
 
 export const store = createStore(rootReducer,preloadedState)
