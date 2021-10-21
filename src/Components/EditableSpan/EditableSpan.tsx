@@ -6,7 +6,9 @@ type PropsType = {
     callBack: (newTitle: string) => void
 }
 
-export const EditableSpan: React.FC<PropsType> = ({callBack, ...props}) => {
+export const EditableSpan = React.memo(function ({callBack, ...props}: PropsType) {
+
+    console.log("EditableSpan is called")
 
     let [edit, setEdit] = useState(false)
     let [title, setTitle] = useState(props.title)
@@ -26,15 +28,15 @@ export const EditableSpan: React.FC<PropsType> = ({callBack, ...props}) => {
     }
 
     return (
-            edit
-                ? <TextField
-                    id="standard-basic"
-                    autoFocus value={title}
-                    onChange={onChangeHandler}
-                    onBlur={onBlurHandler}
-                    variant="standard"
-                />
-                : <span onDoubleClick={editModeHandler}>{props.title}</span>
+        edit
+            ? <TextField
+                id="standard-basic"
+                autoFocus value={title}
+                onChange={onChangeHandler}
+                onBlur={onBlurHandler}
+                variant="standard"
+            />
+            : <span onDoubleClick={editModeHandler}>{props.title}</span>
 
     )
-}
+})

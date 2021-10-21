@@ -1,12 +1,9 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {Todolist} from "./Components/Todolist/Todolist";
 import {AddItemForm} from "./Components/AddItemForm/AddItemForm";
 import {
     addTodolistAC,
-    changeFilterTodolistAC, FilterValueType,
-    removeTodolistAC,
-    renameTodolistAC,
     TodoListsType,
 } from "./state/todolists-reducer";
 import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
@@ -16,20 +13,14 @@ import {AppRootState} from "./Store/Store";
 
 
 function App() {
+    console.log("APP is called")
     const dispatch = useDispatch()
 
     const todolists = useSelector<AppRootState, TodoListsType[]>(state => state.todolists)
 
-    const addTodolist = (newTitle: string) => {
+    const addTodolist = useCallback((newTitle: string) => {
         dispatch(addTodolistAC(newTitle))
-    }
-    const removeTodolist = (todolistID: string) => {
-        dispatch(removeTodolistAC(todolistID))
-    }
-    const renameTodolist = (newTitle: string, todolistID: string) => {
-        dispatch(renameTodolistAC(todolistID, newTitle))
-    }
-
+    }, [dispatch])
 
     return (
         <div className="App">
@@ -66,8 +57,6 @@ function App() {
                                         title={t.title}
                                         todolistID={t.id}
                                         filter={t.filter}
-                                        renameTodolist={renameTodolist}
-                                        removeTodolist={removeTodolist}
                                     />
                                 </Paper>
                             </Grid>

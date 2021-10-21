@@ -5,8 +5,8 @@ type PropsType = {
     callBack: (title: string) => void
 }
 
-export const AddItemForm: React.FC<PropsType> = ({callBack}) => {
-
+export const AddItemForm = React.memo(function ({callBack}: PropsType) {
+    console.log('AddItemForm')
     let [title, setTitle] = useState("")
     let [error, setError] = useState(false)
 
@@ -54,5 +54,5 @@ export const AddItemForm: React.FC<PropsType> = ({callBack}) => {
             </Button>
         </div>
     )
-}
+})
 
