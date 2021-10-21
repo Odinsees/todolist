@@ -56,8 +56,8 @@ export const Todolist = React.memo(function ({filter, todolistID, ...props}: Pro
         <div>
             <h3>
                 <EditableSpan title={props.title} callBack={renameTodolist}/>
-                <IconButton aria-label="delete">
-                    <Delete fontSize="inherit" onClick={removeTodolist}/>
+                <IconButton aria-label="delete" onClick={removeTodolist} >
+                    <Delete fontSize="inherit"/>
                 </IconButton>
             </h3>
             <AddItemForm callBack={addTask}/>

@@ -36,8 +36,8 @@ export const Task = React.memo(function ({task, todolistID}: TaskPropsType) {
                 inputProps={{'aria-label': 'controlled'}}
                 size='small'
             />
-            <IconButton aria-label="delete">
-                <Delete fontSize="inherit" onClick={removeTask}/>
+            <IconButton aria-label="delete" onClick={removeTask}>
+                <Delete fontSize="inherit"/>
             </IconButton>
         </div>
     )
