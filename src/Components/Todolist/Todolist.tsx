@@ -28,7 +28,7 @@ export const Todolist = React.memo(function ({filter, todolistID, ...props}: Pro
     const task = useSelector<AppRootState, TaskType[]>(state => state.tasks[todolistID])
 
 
-    const callBackFromAddTask = useCallback((newTitleText: string) => {
+    const addTask = useCallback((newTitleText: string) => {
         dispatch(addTaskAC(todolistID, newTitleText))
     }, [dispatch, todolistID])
 
@@ -40,7 +40,7 @@ export const Todolist = React.memo(function ({filter, todolistID, ...props}: Pro
         dispatch(renameTodolistAC(todolistID, newTitle))
     }, [dispatch, todolistID])
 
-    const callBackFromRemoveTodolist = useCallback(() => {
+    const removeTodolist = useCallback(() => {
         dispatch(removeTodolistAC(todolistID))
     }, [dispatch, todolistID])
 
@@ -57,10 +57,10 @@ export const Todolist = React.memo(function ({filter, todolistID, ...props}: Pro
             <h3>
                 <EditableSpan title={props.title} callBack={renameTodolist}/>
                 <IconButton aria-label="delete">
-                    <Delete fontSize="inherit" onClick={callBackFromRemoveTodolist}/>
+                    <Delete fontSize="inherit" onClick={removeTodolist}/>
                 </IconButton>
             </h3>
-            <AddItemForm callBack={callBackFromAddTask}/>
+            <AddItemForm callBack={addTask}/>
             {taskForTodolist.map(task =>
                 <Task
                     task={task}

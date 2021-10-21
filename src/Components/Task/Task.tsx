@@ -6,38 +6,38 @@ import {Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 
 type TaskPropsType = {
-    todolistID:string
-    task:TaskType
+    todolistID: string
+    task: TaskType
 }
 
-export const Task = React.memo(function ({task, todolistID}:TaskPropsType){
+export const Task = React.memo(function ({task, todolistID}: TaskPropsType) {
 
     const dispatch = useDispatch()
 
-    const callBackFromRemoveTask =useCallback (() => {
+    const removeTask = useCallback(() => {
         dispatch(removeTaskAC(todolistID, task.id))
-    },[dispatch,todolistID,task.id])
+    }, [dispatch, todolistID, task.id])
 
-    const changeIsDoneCallBack = useCallback ((e: ChangeEvent<HTMLInputElement>) => {
+    const changeIsDone = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         dispatch(changeCheckedAC(e.currentTarget.checked, todolistID, task.id))
-    },[dispatch,todolistID,task.id])
+    }, [dispatch, todolistID, task.id])
 
-    const callBackForRenameTask =useCallback ((newTitle: string) => {
+    const renameTask = useCallback((newTitle: string) => {
         dispatch(renameTaskAC(newTitle, todolistID, task.id))
-    },[dispatch,todolistID, task.id])
+    }, [dispatch, todolistID, task.id])
 
     return (
         <div key={task.id}>
-            <EditableSpan title={task.title} callBack={callBackForRenameTask}/>
+            <EditableSpan title={task.title} callBack={renameTask}/>
             <Checkbox
                 checked={task.isDone}
                 color={"primary"}
-                onChange={changeIsDoneCallBack}
+                onChange={changeIsDone}
                 inputProps={{'aria-label': 'controlled'}}
                 size='small'
             />
             <IconButton aria-label="delete">
-                <Delete fontSize="inherit" onClick={callBackFromRemoveTask}/>
+                <Delete fontSize="inherit" onClick={removeTask}/>
             </IconButton>
         </div>
     )
