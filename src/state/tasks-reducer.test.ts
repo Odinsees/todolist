@@ -1,6 +1,5 @@
 import {v1} from "uuid";
-import {TasksStateType} from "../App";
-import {addTaskAC, changeCheckedAC, removeTaskAC, renameTaskAC, tasksReducer} from "./tasks-reducer";
+import {addTaskAC, changeCheckedAC, removeTaskAC, renameTaskAC, tasksReducer, TasksStateType} from "./tasks-reducer";
 import {addTodolistAC} from "./todolists-reducer";
 
 test('correct new task array should be added when new todolist added', () => {

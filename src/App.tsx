@@ -2,10 +2,7 @@ import React, {useCallback} from 'react';
 import './App.css';
 import {Todolist} from "./Components/Todolist/Todolist";
 import {AddItemForm} from "./Components/AddItemForm/AddItemForm";
-import {
-    addTodolistAC,
-    TodoListsType,
-} from "./state/todolists-reducer";
+import {addTodolistAC, TodoListsType,} from "./state/todolists-reducer";
 import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
