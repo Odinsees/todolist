@@ -1,5 +1,6 @@
-import {v1} from "uuid";
 import {addTodolistAC, removeTodolistAC} from "./todolists-reducer";
+import {TaskPriorities, TaskStatuses, TaskType} from "../api/api";
+import {v1} from "uuid";
 
 type TaskActionsType =
     | ReturnType<typeof addTaskAC>
@@ -9,7 +10,6 @@ type TaskActionsType =
     | ReturnType<typeof changeCheckedAC>
     | ReturnType<typeof renameTaskAC>
 
-export type TaskType = { id: string, title: string, isDone: boolean }
 export type TasksStateType = {
     [key: string]: TaskType[]
 }
@@ -28,14 +28,14 @@ export const tasksReducer = (state: TasksStateType = initialState, action: TaskA
         case "ADD-TASK": {
             return {
                 ...state,
-                [action.todolistID]: [{id: v1(), title: action.newTaskText, isDone: false},
+                [action.todolistID]: [{...action.payload},
                     ...state[action.todolistID]]
             }
         }
         case "REMOVE-TASK": {
             return {
                 ...state,
-                [action.todolistID]: state[action.todolistID].filter(task => task.id !== action.titleID)
+                [action.todolistID]: state[action.todolistID].filter(task => task.id !== action.taskID)
             }
         }
         case "CHANGE-CHECKED": {
@@ -43,7 +43,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: TaskA
                 ...state,
                 [action.todolistID]: state[action.todolistID].map(task => task.id === action.taskID ? {
                     ...task,
-                    isDone: action.isDone
+                    status: !action.isDone ? TaskStatuses.New : TaskStatuses.Completed
                 } : task)
             }
         }
@@ -63,10 +63,26 @@ export const tasksReducer = (state: TasksStateType = initialState, action: TaskA
 
 
 export const addTaskAC = (todolistID: string, newTaskText: string) => {
-    return {type: "ADD-TASK", todolistID, newTaskText} as const
+    return {
+        type: "ADD-TASK",
+        todolistID,
+        payload: {
+            description: '',
+            title: newTaskText,
+            completed: false,
+            status: TaskStatuses.New,
+            priority: TaskPriorities.Low,
+            startDate: '',
+            deadline: '',
+            id: v1(),
+            todoListId: todolistID,
+            order: 0,
+            addedDate: '',
+        }
+    } as const
 }
-export const removeTaskAC = (todolistID: string, titleID: string) => {
-    return {type: "REMOVE-TASK", titleID, todolistID} as const
+export const removeTaskAC = (todolistID: string, taskID: string) => {
+    return {type: "REMOVE-TASK", taskID, todolistID} as const
 }
 export const changeCheckedAC = (isDone: boolean, todolistID: string, taskID: string) => {
     return {type: "CHANGE-CHECKED", isDone, todolistID, taskID} as const

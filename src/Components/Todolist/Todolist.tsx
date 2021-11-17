@@ -3,7 +3,7 @@ import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {addTaskAC, TaskType} from "../../state/tasks-reducer";
+import {addTaskAC} from "../../state/tasks-reducer";
 import {
     changeFilterTodolistAC,
     FilterValueType,
@@ -13,6 +13,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../Store/Store";
 import {Task} from "../Task/Task";
+import {TaskStatuses, TaskType, todolistAPI} from "../../api/api";
 
 type PropsType = {
     title: string
@@ -38,6 +39,7 @@ export const Todolist = React.memo(function ({filter, todolistID, ...props}: Pro
 
     const renameTodolist = useCallback((newTitle: string) => {
         dispatch(renameTodolistAC(todolistID, newTitle))
+        todolistAPI.updateTodolistTitle('8feef891-7856-4ed2-9230-233ab06adba5', 'rarfzxfa')
     }, [dispatch, todolistID])
 
     const removeTodolist = useCallback(() => {
@@ -46,10 +48,10 @@ export const Todolist = React.memo(function ({filter, todolistID, ...props}: Pro
 
     let taskForTodolist = task;
     if (filter === "active") {
-        taskForTodolist = task.filter(f => !f.isDone)
+        taskForTodolist = task.filter(f => f.status === TaskStatuses.New)
     }
     if (filter === "complete") {
-        taskForTodolist = task.filter(f => f.isDone)
+        taskForTodolist = task.filter(f => f.status === TaskStatuses.Completed)
     }
 
     return (
