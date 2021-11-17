@@ -13,7 +13,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../Store/Store";
 import {Task} from "../Task/Task";
-import {TaskStatuses, TaskType, todolistAPI} from "../../api/api";
+import {TaskStatuses, TaskType} from "../../api/api";
 
 type PropsType = {
     title: string
@@ -39,7 +39,6 @@ export const Todolist = React.memo(function ({filter, todolistID, ...props}: Pro
 
     const renameTodolist = useCallback((newTitle: string) => {
         dispatch(renameTodolistAC(todolistID, newTitle))
-        todolistAPI.updateTodolistTitle('8feef891-7856-4ed2-9230-233ab06adba5', 'rarfzxfa')
     }, [dispatch, todolistID])
 
     const removeTodolist = useCallback(() => {

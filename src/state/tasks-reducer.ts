@@ -43,7 +43,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: TaskA
                 ...state,
                 [action.todolistID]: state[action.todolistID].map(task => task.id === action.taskID ? {
                     ...task,
-                    status: !action.isDone ? TaskStatuses.New : TaskStatuses.Completed
+                    status: action.status
                 } : task)
             }
         }
@@ -84,8 +84,8 @@ export const addTaskAC = (todolistID: string, newTaskText: string) => {
 export const removeTaskAC = (todolistID: string, taskID: string) => {
     return {type: "REMOVE-TASK", taskID, todolistID} as const
 }
-export const changeCheckedAC = (isDone: boolean, todolistID: string, taskID: string) => {
-    return {type: "CHANGE-CHECKED", isDone, todolistID, taskID} as const
+export const changeCheckedAC = (status: TaskStatuses, todolistID: string, taskID: string) => {
+    return {type: "CHANGE-CHECKED", status, todolistID, taskID} as const
 }
 export const renameTaskAC = (newTitle: string, todolistID: string, taskID: string) => {
     return {type: "RENAME-TASK", newTitle, todolistID, taskID} as const

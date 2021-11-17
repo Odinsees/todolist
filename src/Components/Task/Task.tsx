@@ -20,7 +20,7 @@ export const Task = React.memo(function ({task, todolistID}: TaskPropsType) {
     }, [dispatch, todolistID, task.id])
 
     const changeStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(changeCheckedAC(e.currentTarget.checked, todolistID, task.id))
+        dispatch(changeCheckedAC(e.currentTarget.checked ? TaskStatuses.New : TaskStatuses.Completed, todolistID, task.id))
     }, [dispatch, todolistID, task.id])
 
     const renameTask = useCallback((newTitle: string) => {
