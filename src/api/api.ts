@@ -55,6 +55,12 @@ type ResponseType<D> = {
     data: D
 }
 
+type GetTaskResponseType = {
+    items:TaskType[]
+    totalCount:number
+    error:string
+}
+
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
@@ -77,7 +83,7 @@ export const todolistAPI = {
         return instance.put<ResponseType<{}>>(`todo-lists/${todolistId}`, {title: newTitle})
     },
     getTaskForTodolist(todolistId: string) {
-        return instance.get<ResponseType<TaskType[]>>(`/todo-lists/${todolistId}/tasks?`)
+        return instance.get<GetTaskResponseType>(`/todo-lists/${todolistId}/tasks`)
     },
     createTaskForTodolist(todolistId: string, newTaskTitle: string) {
         return instance.post<ResponseType<TaskType[]>>(`/todo-lists/${todolistId}/tasks`, {title: newTaskTitle})

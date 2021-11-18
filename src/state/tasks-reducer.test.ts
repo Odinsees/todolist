@@ -1,5 +1,13 @@
 import {v1} from "uuid";
-import {addTaskAC, changeCheckedAC, removeTaskAC, renameTaskAC, tasksReducer, TasksStateType} from "./tasks-reducer";
+import {
+    addTaskAC,
+    changeCheckedAC,
+    removeTaskAC,
+    renameTaskAC,
+    setTaskAC,
+    tasksReducer,
+    TasksStateType
+} from "./tasks-reducer";
 import {addTodolistAC, setTodoListsAC, TodolistDomainType} from "./todo-lists-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/api";
 
@@ -159,5 +167,17 @@ test('correct new task array should be added when new todolist set', () => {
     expect(key.length).toBe(2)
     expect(endState['1']).toEqual([])
     expect(endState['2']).toEqual([])
+
+})
+
+test('correct task for todolist should be set', () => {
+
+    const endState = tasksReducer({
+        [todolistId1]:[],
+        [todolistId2]:[]
+    }, setTaskAC(startState[todolistId1], todolistId1))
+
+    expect(endState[todolistId1].length).toBe(2)
+    expect(endState[todolistId2].length).toBe(0)
 
 })

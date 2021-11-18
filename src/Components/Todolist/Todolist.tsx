@@ -1,9 +1,9 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {addTaskAC} from "../../state/tasks-reducer";
+import {addTaskAC, fetchTask} from "../../state/tasks-reducer";
 import {
     changeFilterTodolistAC,
     FilterValueType,
@@ -20,6 +20,8 @@ type PropsType = {
     todolistID: string
     filter: FilterValueType
 }
+
+
 
 export const Todolist = React.memo(function ({filter, todolistID, ...props}: PropsType) {
 
@@ -52,6 +54,10 @@ export const Todolist = React.memo(function ({filter, todolistID, ...props}: Pro
     if (filter === "complete") {
         taskForTodolist = task.filter(f => f.status === TaskStatuses.Completed)
     }
+
+    useEffect(()=>{
+        dispatch(fetchTask(todolistID))
+    },[])
 
     return (
         <div>
