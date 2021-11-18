@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {addTaskAC, changeCheckedAC, removeTaskAC, renameTaskAC, tasksReducer, TasksStateType} from "./tasks-reducer";
-import {addTodolistAC} from "./todolists-reducer";
+import {addTodolistAC, setTodoListsAC, TodolistDomainType} from "./todo-lists-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/api";
 
 
@@ -9,7 +9,7 @@ let todolistId2 = v1();
 
 
 let startState: TasksStateType = {};
-beforeEach(()=>{
+beforeEach(() => {
     startState = {
         [todolistId1]: [
             {
@@ -23,7 +23,8 @@ beforeEach(()=>{
                 id: v1(),
                 todoListId: todolistId1,
                 order: 0,
-                addedDate: '',},
+                addedDate: '',
+            },
             {
                 description: '',
                 title: "JS",
@@ -35,7 +36,8 @@ beforeEach(()=>{
                 id: v1(),
                 todoListId: todolistId1,
                 order: 0,
-                addedDate: '',}
+                addedDate: '',
+            }
         ],
         [todolistId2]: [
             {
@@ -49,7 +51,8 @@ beforeEach(()=>{
                 id: v1(),
                 todoListId: todolistId2,
                 order: 0,
-                addedDate: '',},
+                addedDate: '',
+            },
             {
                 description: '',
                 title: "React Book",
@@ -61,7 +64,8 @@ beforeEach(()=>{
                 id: v1(),
                 todoListId: todolistId2,
                 order: 0,
-                addedDate: '',}
+                addedDate: '',
+            }
         ]
     }
 })
@@ -104,7 +108,7 @@ test('correct task  should be remove', () => {
 
 })
 
-test ('correct task status should be changed',()=>{
+test('correct task status should be changed', () => {
 
 
     let taskID = startState[todolistId1][0].id
@@ -117,7 +121,7 @@ test ('correct task status should be changed',()=>{
 
 })
 
-test('correct task name should be changed', ()=>{
+test('correct task name should be changed', () => {
 
     let newTitle = 'New title'
     let taskID = startState[todolistId1][0].id
@@ -127,5 +131,33 @@ test('correct task name should be changed', ()=>{
     expect(endState[todolistId1][0].title).toBe('New title')
     expect(endState[todolistId1][1].title).toBe("JS")
     expect(endState[todolistId2][0].title).toBe("Milk")
+
+})
+
+test('correct new task array should be added when new todolist set', () => {
+
+    let startState: TodolistDomainType[] =
+        [{
+            filter: "all",
+            addedDate: 'string',
+            id: '1',
+            order: 0,
+            title: "What to learn"
+        },
+            {
+                filter: "all",
+                addedDate: 'string',
+                id: '2',
+                order: 0,
+                title: "What to buy"
+            }]
+
+    const endState = tasksReducer({}, setTodoListsAC(startState))
+
+    let key = Object.keys(endState)
+
+    expect(key.length).toBe(2)
+    expect(endState['1']).toEqual([])
+    expect(endState['2']).toEqual([])
 
 })

@@ -9,7 +9,7 @@ import {
     FilterValueType,
     removeTodolistAC,
     renameTodolistAC
-} from "../../state/todolists-reducer";
+} from "../../state/todo-lists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../Store/Store";
 import {Task} from "../Task/Task";
