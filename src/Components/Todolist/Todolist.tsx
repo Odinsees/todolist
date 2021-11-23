@@ -4,12 +4,7 @@ import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {createTaskForTodolist, setTaskForTodolist} from "../../state/tasks-reducer";
-import {
-    changeFilterTodolistAC,
-    FilterValueType,
-    removeTodolistAC,
-    renameTodolistAC
-} from "../../state/todo-lists-reducer";
+import {changeFilterTodolistAC, FilterValueType, removeTodolist, renameTodolist} from "../../state/todo-lists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../../Store/Store";
 import {Task} from "../Task/Task";
@@ -20,7 +15,6 @@ type PropsType = {
     todolistID: string
     filter: FilterValueType
 }
-
 
 
 export const Todolist = React.memo(function ({filter, todolistID, ...props}: PropsType) {
@@ -38,12 +32,12 @@ export const Todolist = React.memo(function ({filter, todolistID, ...props}: Pro
         dispatch(changeFilterTodolistAC(todolistID, value))
     }, [dispatch, todolistID])
 
-    const renameTodolist = useCallback((newTitle: string) => {
-        dispatch(renameTodolistAC(todolistID, newTitle))
+    const renameTodolistHandler = useCallback((newTitle: string) => {
+        dispatch(renameTodolist(todolistID, newTitle))
     }, [dispatch, todolistID])
 
-    const removeTodolist = useCallback(() => {
-        dispatch(removeTodolistAC(todolistID))
+    const removeTodolistHandler = useCallback(() => {
+        dispatch(removeTodolist(todolistID))
     }, [dispatch, todolistID])
 
     let taskForTodolist = task;
@@ -54,15 +48,15 @@ export const Todolist = React.memo(function ({filter, todolistID, ...props}: Pro
         taskForTodolist = task.filter(f => f.status === TaskStatuses.Completed)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(setTaskForTodolist(todolistID))
-    },[dispatch,todolistID])
+    }, [dispatch, todolistID])
 
     return (
         <div>
             <h3>
-                <EditableSpan title={props.title} callBack={renameTodolist}/>
-                <IconButton aria-label="delete" onClick={removeTodolist} >
+                <EditableSpan title={props.title} callBack={renameTodolistHandler}/>
+                <IconButton aria-label="delete" onClick={removeTodolistHandler}>
                     <Delete fontSize="inherit"/>
                 </IconButton>
             </h3>

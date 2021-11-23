@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from "./Components/Todolist/Todolist";
 import {AddItemForm} from "./Components/AddItemForm/AddItemForm";
-import {addTodolistAC, setTodoLists, TodolistDomainType} from "./state/todo-lists-reducer";
+import {addNewTodolist, setTodoLists, TodolistDomainType} from "./state/todo-lists-reducer";
 import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,7 +16,7 @@ function App() {
     const todoLists = useSelector<AppRootState, TodolistDomainType[]>(state => state.todolists)
 
     const addTodolist = useCallback((newTitle: string) => {
-        dispatch(addTodolistAC(newTitle))
+        dispatch(addNewTodolist(newTitle))
     }, [dispatch])
 
     useEffect(()=>{
