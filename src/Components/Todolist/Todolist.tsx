@@ -3,7 +3,7 @@ import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {addTaskAC, fetchTask} from "../../state/tasks-reducer";
+import {addTaskAC, createTaskForTodolist, setTaskForTodolist} from "../../state/tasks-reducer";
 import {
     changeFilterTodolistAC,
     FilterValueType,
@@ -30,9 +30,8 @@ export const Todolist = React.memo(function ({filter, todolistID, ...props}: Pro
     const dispatch = useDispatch()
     const task = useSelector<AppRootState, TaskType[]>(state => state.tasks[todolistID])
 
-
     const addTask = useCallback((newTitleText: string) => {
-        dispatch(addTaskAC(todolistID, newTitleText))
+        dispatch(createTaskForTodolist(todolistID, newTitleText))
     }, [dispatch, todolistID])
 
     const changeFilter = useCallback((value: FilterValueType) => {
@@ -56,7 +55,7 @@ export const Todolist = React.memo(function ({filter, todolistID, ...props}: Pro
     }
 
     useEffect(()=>{
-        dispatch(fetchTask(todolistID))
+        dispatch(setTaskForTodolist(todolistID))
     },[])
 
     return (

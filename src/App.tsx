@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from "./Components/Todolist/Todolist";
 import {AddItemForm} from "./Components/AddItemForm/AddItemForm";
-import {addTodolistAC, fetchTodoLists, TodolistDomainType} from "./state/todo-lists-reducer";
+import {addTodolistAC, setTodoLists, TodolistDomainType} from "./state/todo-lists-reducer";
 import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
@@ -20,7 +20,7 @@ function App() {
     }, [dispatch])
 
     useEffect(()=>{
-        dispatch(fetchTodoLists())
+        dispatch(setTodoLists())
     },[])
 
 
