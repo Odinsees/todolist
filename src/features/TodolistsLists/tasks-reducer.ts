@@ -12,7 +12,7 @@ import {
     TaskType,
     todolistAPI,
     UpdateTaskModelType
-} from "../api/api";
+} from "../../api/api";
 import {Dispatch} from "redux";
 
 

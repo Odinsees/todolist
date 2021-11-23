@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "../../Store/Store";
-import {addNewTodolist, setTodoLists, TodolistDomainType} from "../../state/todo-lists-reducer";
+import {AppRootState} from "../../app/Store";
+import {addNewTodolist, setTodoLists, TodolistDomainType} from "./todo-lists-reducer";
 import React, {useCallback, useEffect} from "react";
 import {Container, Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../Components/AddItemForm/AddItemForm";

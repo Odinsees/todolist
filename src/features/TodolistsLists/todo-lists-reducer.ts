@@ -1,4 +1,4 @@
-import {todolistAPI, TodoListsType} from "../api/api";
+import {todolistAPI, TodoListsType} from "../../api/api";
 import {Dispatch} from "redux";
 
 // constants
