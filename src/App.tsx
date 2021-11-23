@@ -13,7 +13,7 @@ function App() {
     console.log("APP is called")
     const dispatch = useDispatch()
 
-    const todolists = useSelector<AppRootState, TodolistDomainType[]>(state => state.todolists)
+    const todoLists = useSelector<AppRootState, TodolistDomainType[]>(state => state.todolists)
 
     const addTodolist = useCallback((newTitle: string) => {
         dispatch(addTodolistAC(newTitle))
@@ -21,7 +21,7 @@ function App() {
 
     useEffect(()=>{
         dispatch(setTodoLists())
-    },[])
+    },[dispatch])
 
 
     return (
@@ -50,7 +50,7 @@ function App() {
                     <AddItemForm callBack={addTodolist}/>
                 </Grid>
                 <Grid container spacing={3}>
-                    {todolists.map(t => {
+                    {todoLists.map(t => {
                         return (
                             <Grid item key={t.id}>
                                 <Paper style={{padding: "10px"}} key={t.id}>
