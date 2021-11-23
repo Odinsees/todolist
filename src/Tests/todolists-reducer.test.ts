@@ -5,7 +5,7 @@ import {
     removeTodolistAC,
     renameTodolistAC, setTodoListsAC, TodolistDomainType,
     todoListsReducer,
-} from "./todo-lists-reducer";
+} from "../state/todo-lists-reducer";
 import {TodoListsType} from "../api/api";
 
 let todolistId1 = v1();
@@ -37,7 +37,7 @@ test('correct todolist should be remove', () => {
 
 test('correct todolist should be add', () => {
 
-    let newTodolist:TodoListsType = {
+    let newTodolist: TodoListsType = {
         addedDate: '',
         id: v1(),
         order: 0,

@@ -46,14 +46,14 @@ export const setTodoListsAC = (todoLists: TodoListsType[]) =>
 
 
 // thunks
-export const setTodoLists = () => (dispatch: Dispatch) => {
+export const setTodoLists = () => (dispatch: Dispatch<ActionsType>) => {
     todolistAPI.getTodolist()
         .then(res => {
             dispatch(setTodoListsAC(res.data))
         })
 }
 
-export const addNewTodolist = (newTodolistTitle: string) => (dispatch: Dispatch) => {
+export const addNewTodolist = (newTodolistTitle: string) => (dispatch: Dispatch<ActionsType>) => {
     todolistAPI.createTodolist(newTodolistTitle)
         .then(res => {
             if (res.data.resultCode === 0) {
@@ -62,7 +62,7 @@ export const addNewTodolist = (newTodolistTitle: string) => (dispatch: Dispatch)
         })
 }
 
-export const removeTodolist = (todolistID: string) => (dispatch: Dispatch) => {
+export const removeTodolist = (todolistID: string) => (dispatch: Dispatch<ActionsType>) => {
     todolistAPI.deleteTodolist(todolistID)
         .then(res => {
             if (res.data.resultCode === 0) {
@@ -71,7 +71,7 @@ export const removeTodolist = (todolistID: string) => (dispatch: Dispatch) => {
         })
 }
 
-export const renameTodolist = (todolistID: string, newTitle: string) => (dispatch: Dispatch) => {
+export const renameTodolist = (todolistID: string, newTitle: string) => (dispatch: Dispatch<ActionsType>) => {
     todolistAPI.updateTodolistTitle(todolistID, newTitle)
         .then(res => {
             if (res.data.resultCode === 0) {
